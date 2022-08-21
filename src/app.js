@@ -1,44 +1,51 @@
-import express from 'express'
-import path from 'path'
-import cookieParser from 'cookie-parser'
-import createError from "http-errors";
-import logger from 'morgan'
+import express from "express";
 
-import indexRouter from './routes/api'
-import usersRouter from './routes/api/users'
+import createError from "http-errors";
+import path from "path";
+import logger from "morgan";
+import cors from "cors";
+import http from "http";
+
+import { corsOptions } from "./config";
+import api from "./routes/api";
+
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+const PORT = process.env.PORT|| 5000;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/api", api);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter)
-
-app.get('/', function(req, res, next) {
-  res.status(200).json({message:"connect success"})
+app.get("/", function (req, res) {
+  res.json({message :"server connected"});
 });
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
+  // send error message
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    errMsg: err.stack,
+  });
 });
 
-module.exports = app;
+server.listen(PORT , () => {
+  console.log("listening on port ", PORT);
+});
