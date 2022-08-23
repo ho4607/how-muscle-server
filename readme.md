@@ -22,7 +22,7 @@ run the following yarn code below:
 ```bash
 yarn install
 ```
-Additionally, you can check the operation of the server [here](/ho4607/how-muscle-server/package.json).
+Additionally, you can check the operation of the server [here](./package.json).
 
 ## Open Endpoints
 
