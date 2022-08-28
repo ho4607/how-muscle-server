@@ -7,7 +7,7 @@
     "dev": "yarn install && yarn clear && yarn build && yarn pm2-dev",
     "pm2-start": "yarn build && pm2 start dist/app.js --name 'how-muscle-server'",
     "pm2-dev": "pm2 start ./src/app.js --name 'how-muscle-server' --watch ",
-    "kill" : "pm2 delete how-muscle-server",
+    "kill": "pm2 delete how-muscle-server",
     "build": "babel src -d dist",
     "clear": "rm -rf dist"
   },
@@ -21,7 +21,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pm2": "^5.2.0",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "sequelize": "^6.21.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
