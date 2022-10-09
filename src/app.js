@@ -1,5 +1,6 @@
 import express from "express";
 
+import fs from 'fs'
 import createError from "http-errors";
 import path from "path";
 import logger from "morgan";
@@ -40,8 +41,9 @@ app.get("/", wrapperAsync((req, res, next)=>{
   if (req.secure) {
     next();
   } else {
-    const to = `https://${req.hostname}:${HTTPS_PORT}${req.url}`;
-    res.redirect(to);
+    res.json({message:"server connected"})
+    // const to = `https://${req.hostname}:${HTTPS_PORT}${req.url}`;
+    // res.redirect(to);
   }
 }));
 
