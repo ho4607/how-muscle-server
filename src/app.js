@@ -43,7 +43,7 @@ app.get("/", wrapperAsync((req, res, next)=>{
     const to = `https://${req.hostname}:${HTTPS_PORT}${req.url}`;
     res.redirect(to);
   }
-});
+}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
