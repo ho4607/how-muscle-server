@@ -1,6 +1,5 @@
 import express from "express";
 
-import fs from 'fs';
 import createError from "http-errors";
 import path from "path";
 import logger from "morgan";
@@ -64,10 +63,10 @@ app.use(function (err, req, res) {
   });
 });
 
-server.listen(HTTP_PORT , () => {
+server.listen(HTTP_PORT,'0.0.0.0', () => {
   console.log("HTTP listening on port ", HTTP_PORT);
 });
 
-serverHTTPS.listen(HTTPS_PORT , () => {
+serverHTTPS.listen(HTTPS_PORT, () => {
   console.log("HTTPS listening on port ", HTTPS_PORT);
 });
