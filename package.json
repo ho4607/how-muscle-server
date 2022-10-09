@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "yarn install && yarn clear && yarn pm2-start",
-    "dev": "yarn install && yarn clear && yarn build && yarn pm2-dev",
+    "dev": "yarn install && yarn run-dev",
     "pm2-start": "yarn build && pm2 start dist/app.js --name 'how-muscle-server'",
-    "pm2-dev": "pm2 start ./src/app.js --name 'how-muscle-server' --watch ",
+    "run-dev": "nodemon --exec babel-node ./src/app.js NODE_ENV=develop",
     "kill": "pm2 delete how-muscle-server",
     "build": "babel src -d dist",
     "clear": "rm -rf dist"
@@ -27,6 +27,8 @@
   "devDependencies": {
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10"
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.18.10",
+    "nodemon": "^2.0.20"
   }
 }

@@ -1,21 +1,33 @@
 import express from "express";
 
+import fs from 'fs';
 import createError from "http-errors";
 import path from "path";
 import logger from "morgan";
 import cors from "cors";
 import http from "http";
+import https from "https";
+import dotenv from "dotenv";
 
 import { corsOptions } from "./config";
 import api from "./routes/api";
-
-import dotenv from "dotenv";
+import {wrapperAsync} from "@/utils/functions";
 
 dotenv.config();
 
+const options = {
+  key: fs.readFileSync('./.cert/rootca.key'),
+  cert: fs.readFileSync('./.cert/rootca.cr')
+};
+
+
+
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT|| 5000;
+const serverHTTPS = https.createServer(options, app);
+const HTTP_PORT = process.env.PORT|| 5000;
+const HTTPS_PORT = process.env.HTTPS_PORT|| 5001;
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -24,8 +36,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", api);
 
-app.get("/", function (req, res) {
-  res.json({message :"server connected"});
+app.get("/", wrapperAsync((req, res, next)=>{
+  //redirect HTTPS
+  if (req.secure) {
+    next();
+  } else {
+    const to = `https://${req.hostname}:${HTTPS_PORT}${req.url}`;
+    res.redirect(to);
+  }
 });
 
 // catch 404 and forward to error handler
@@ -46,6 +64,10 @@ app.use(function (err, req, res) {
   });
 });
 
-server.listen(PORT , () => {
-  console.log("listening on port ", PORT);
+server.listen(HTTP_PORT , () => {
+  console.log("HTTP listening on port ", HTTP_PORT);
+});
+
+serverHTTPS.listen(HTTPS_PORT , () => {
+  console.log("HTTPS listening on port ", HTTPS_PORT);
 });

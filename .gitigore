@@ -1,13 +1,16 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
+# https cert
+.cert/
+
 # intellij setting
-.idea/*
-.idea
+*.idea/*
+.idea/
 
 # node libraries
 node_modules/*
-.env
+*.env
 
 ### Node ###
 # Logs
