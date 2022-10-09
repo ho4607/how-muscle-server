@@ -6,7 +6,7 @@ import path from "path";
 import logger from "morgan";
 import cors from "cors";
 import http from "http";
-import https from "https";
+// import https from "https";
 import dotenv from "dotenv";
 
 import { corsOptions } from "./config";
@@ -15,16 +15,16 @@ import {wrapperAsync} from "@/utils/functions";
 
 dotenv.config();
 
-const options = {
-  key: fs.readFileSync('./.cert/rootca.key'),
-  cert: fs.readFileSync('./.cert/rootca.cr')
-};
+// const options = {
+//   key: fs.readFileSync('./.cert/rootca.key'),
+//   cert: fs.readFileSync('./.cert/rootca.cr')
+// };
 
 
 
 const app = express();
 const server = http.createServer(app);
-const serverHTTPS = https.createServer(options, app);
+// const serverHTTPS = https.createServer(options, app);
 const HTTP_PORT = process.env.PORT|| 5000;
 const HTTPS_PORT = process.env.HTTPS_PORT|| 5001;
 
@@ -69,6 +69,6 @@ server.listen(HTTP_PORT,'0.0.0.0', () => {
   console.log("HTTP listening on port ", HTTP_PORT);
 });
 
-serverHTTPS.listen(HTTPS_PORT, () => {
-  console.log("HTTPS listening on port ", HTTPS_PORT);
-});
+// serverHTTPS.listen(HTTPS_PORT, () => {
+//   console.log("HTTPS listening on port ", HTTPS_PORT);
+// });
