@@ -5,7 +5,7 @@ import { sequelize } from "./sequelize.config";
  * @param query {String}
  * @param replacementOpt {Object}
  * @param init {Object|Array|null=}
- * @returns {Promise<[undefined, number]|null>}
+ * @returns {Promise<{metadata: number, data: undefined}|{metadata: string, data: (Object|Array)}>}
  * 한개의 로우만을 조회하는 용도의 함수
  */
 export const sendRawQuery = async (query, replacementOpt, init) => {

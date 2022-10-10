@@ -1,6 +1,6 @@
 import {wrapperAsync} from "@/utils/functions";
 import {sendRawQuery} from "@/database/function";
-import {INSERT_PLACE_STATUS} from "@/database/queries/place-status";
+import {FIND_PLACE_STATUS_LOG, INSERT_PLACE_STATUS} from "@/database/queries/place-status";
 
 export const updatePlaceState = wrapperAsync( async (req, res, next)=>{
 
@@ -9,11 +9,23 @@ export const updatePlaceState = wrapperAsync( async (req, res, next)=>{
 
     if(!person_in) throw new Error('Bad Request.')
 
-    let query = await sendRawQuery( INSERT_PLACE_STATUS,
+     await sendRawQuery( INSERT_PLACE_STATUS,
         {
             placeId, modelId,
-        });
-    console.log(query)
+    });
 
-    res.status(201).json({success:true, data:query})
+    let {id, date_in:dateIn, time_in:timeIn} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
+            placeId, modelId
+        })
+
+    const result = {
+        success:true,
+        data: {
+            id,
+            date: dateIn,
+            time: timeIn
+        }
+    }
+
+    res.status(201).json(result)
 })
