@@ -1,6 +1,39 @@
 import {wrapperAsync} from "@/utils/functions";
 import {sendRawQuery} from "@/database/function";
-import {FIND_PLACE_STATUS_LOG, INSERT_PLACE_STATUS} from "@/database/queries/place-status";
+import {
+    FIND_PLACE_STATUS_LOG,
+    INSERT_PLACE_STATUS,
+    UPDATE_CLEAN_PLACE_STATUS_LOG
+} from "@/database/queries/place-status";
+
+export const updateCleanHistory = wrapperAsync( async(req,res)=>{
+    const {place_id:placeId, model_id:modelId} = req.params;
+    const {person_clean:personClean} = req.body
+
+    if(personClean.toUpperCase()==='TRUE'){
+        await sendRawQuery( UPDATE_CLEAN_PLACE_STATUS_LOG,
+            {
+                placeId, modelId,
+            });
+
+        let {id, date_clean:dateClean, time_clean:timeClean} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
+            placeId, modelId
+        })
+
+        const result = {
+            success:true,
+            data: {
+                id,
+                date: dateClean,
+                time: timeClean
+            }
+        }
+
+        res.status(201).json(result)
+
+    }
+    else throw new Error('Bad Request.');
+})
 
 export const findNewPlaceStatus = wrapperAsync( async(req,res)=>{
     const {place_id:placeId, model_id:modelId}=req.params;
@@ -19,7 +52,6 @@ export const findNewPlaceStatus = wrapperAsync( async(req,res)=>{
                 time: timeIn
             }
         }
-
         res.status(201).json(result)
     }
     else throw new Error('Bad Request.');
