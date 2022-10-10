@@ -14,7 +14,7 @@ import api from "./routes/api";
 import {wrapperAsync} from "@/utils/functions";
 import bodyParser from "body-parser";
 
-dotenv.config();{}
+dotenv.config();
 
 // const options = {
 //   key: fs.readFileSync('./.cert/rootca.key'),
