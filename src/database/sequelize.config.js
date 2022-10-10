@@ -2,20 +2,23 @@ import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize'
 dotenv.config();
 
+export const env = process.env.NODE_ENV;
+
+const sequelizeGlobalConfig ={
+    dialect: "postgres",
+    charset: "utf8",
+    define: {
+        underscored: true,
+    },
+    timezone: "+09:00",
+}
+
 const sequelizeConfig = {
-    development: {
+    develop: {
         username: process.env.DEV_DATABASE_USER_NAME,
         password: process.env.DEV_DATABASE_PASSWORD,
         database: process.env.DEV_DATABASE_NAME,
         host: process.env.DEV_DATABASE_HOST,
-        dialect: "mysql",
-        charset: "utf8",
-        collate: "utf8_general_ci",
-        operatorsAliases: 0,
-        define: {
-            underscored: true,
-        },
-        timezone: "+09:00",
         logging: false, // 콘솔 내 쿼리 로그,
     },
     staged: {
@@ -23,13 +26,6 @@ const sequelizeConfig = {
         password: process.env.DEV_DATABASE_PASSWORD,
         database: process.env.DEV_DATABASE_NAME,
         host: process.env.DEV_DATABASE_HOST,
-        dialect: "mysql",
-        charset: "utf8",
-        collate: "utf8_general_ci",
-        operatorsAliases: 0,
-        define: {
-            underscored: true,
-        },
         timezone: "+09:00",
     },
 
@@ -38,20 +34,15 @@ const sequelizeConfig = {
         password: process.env.PROD_DATABASE_PASSWORD,
         database: process.env.PROD_DATABASE_NAME,
         host: process.env.PROD_DATABASE_HOST,
-        dialect: "mysql",
-        charset: "utf8",
-        collate: "utf8_general_ci",
-        operatorsAliases: 0,
-        define: {
-            underscored: true,
-        },
         timezone: "+09:00",
     },
 };
 
-export const env = process.env.NODE_ENV;
+console.log(sequelizeConfig[env])
 
-export const sequelize = new Sequelize({
-    ...sequelizeConfig[env],
-});
+export const sequelize = new Sequelize(
+    {
+        ...sequelizeConfig[env], ...sequelizeGlobalConfig
+    }
+);
 
