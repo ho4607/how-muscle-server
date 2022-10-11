@@ -1,6 +1,8 @@
-const express = require('express');
+import express from 'express';
+import placesStatus from './places-status'
+
 const router = express.Router();
 
-/* GET home page. */
+router.use("/place/status",placesStatus);
 
 module.exports = router;
