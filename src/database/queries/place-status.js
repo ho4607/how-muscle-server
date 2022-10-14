@@ -23,7 +23,7 @@ export const UPDATE_CLEAN_PLACE_STATUS_LOG =`
 export const INSERT_PLACE_STATUS = `
     insert into how_muscle.place_status_logs
         (place_id, date_in, time_in, date_out, time_out, model_id, administrators_id)
-    values(:placeId,current_date,current_time,null,null,:modelId,1,null);
+    values(:placeId,current_date,current_time,null,null,:modelId,1);
 `
 
 export const FIND_PLACE_STATUS_LOG = `
