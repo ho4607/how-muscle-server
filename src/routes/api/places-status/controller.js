@@ -148,7 +148,7 @@ export const createNewPlaceStatus = wrapperAsync( async (req, res)=>{
 
     let {id, date_in:dateIn, time_in:timeIn} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
             placeId, modelId
-        })
+    })
 
     const result = {
         success:true,

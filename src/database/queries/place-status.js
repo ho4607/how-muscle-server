@@ -5,7 +5,7 @@ export const UPDATE_OUT_PLACE_STATUS_LOG =`
             select id
             from how_muscle.place_status_logs
             where place_id = :placeId and model_id = :modelId
-            order by date_in, time_in desc limit 1
+            order by date_in desc, time_in desc limit 1
         );
 `
 
@@ -16,7 +16,7 @@ export const UPDATE_CLEAN_PLACE_STATUS_LOG =`
             select id
             from how_muscle.place_status_logs
             where place_id = :placeId and model_id = :modelId
-            order by date_in, time_in desc limit 1
+            order by date_in desc, time_in desc limit 1
         );
 `
 
@@ -36,5 +36,5 @@ export const FIND_PLACE_STATUS_LOG = `
            time_out
     from how_muscle.place_status_logs 
         where place_id = :placeId and model_id = :modelId 
-        order by date_in, time_in desc limit 1 ; 
+        order by date_in desc, time_in desc limit 1 ; 
 `
