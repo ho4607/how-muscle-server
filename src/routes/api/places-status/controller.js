@@ -33,9 +33,9 @@ export const findUpdatedOutHistory = wrapperAsync(async (req,res)=>{
 
 export const updateOutHistory = wrapperAsync(async (req,res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
-    const {person_out:personOut} = req.body
+    const {person_out} = req.body
 
-    if(personOut?.toUpperCase()==='TRUE'){
+    if(!person_out){
         await sendRawQuery( UPDATE_OUT_PLACE_STATUS_LOG,
             {
                 placeId, modelId,
@@ -85,9 +85,9 @@ export const findUpdatedCleanHistory = wrapperAsync(async (req,res)=>{
 
 export const updateCleanHistory = wrapperAsync( async(req,res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
-    const {person_clean:personClean} = req.body
+    const {person_clean} = req.body
 
-    if(personClean?.toUpperCase()==='TRUE'){
+    if(!person_clean){
         await sendRawQuery( UPDATE_CLEAN_PLACE_STATUS_LOG,
             {
                 placeId, modelId,
