@@ -35,29 +35,27 @@ export const updateOutHistory = wrapperAsync(async (req,res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
     const {person_out} = req.body
 
-    if(!person_out){
-        await sendRawQuery( UPDATE_OUT_PLACE_STATUS_LOG,
-            {
-                placeId, modelId,
-            });
+    if(!person_out) throw new Error('Bad Request.');
 
-        let {id, date_out:dateOut, time_out:timeOut} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
-            placeId, modelId
-        })
+    await sendRawQuery( UPDATE_OUT_PLACE_STATUS_LOG,
+        {
+            placeId, modelId,
+        });
 
-        const result = {
-            success:true,
-            data: {
-                id,
-                date: dateOut,
-                time: timeOut
-            }
+    let {id, date_out:dateOut, time_out:timeOut} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
+        placeId, modelId
+    })
+
+    const result = {
+        success:true,
+        data: {
+            id,
+            date: dateOut,
+            time: timeOut
         }
-
-        res.status(201).json(result)
-
     }
-    else throw new Error('Bad Request.');
+
+    res.status(201).json(result)
 })
 
 export const findUpdatedCleanHistory = wrapperAsync(async (req,res)=>{
@@ -87,29 +85,27 @@ export const updateCleanHistory = wrapperAsync( async(req,res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
     const {person_clean} = req.body
 
-    if(!person_clean){
-        await sendRawQuery( UPDATE_CLEAN_PLACE_STATUS_LOG,
-            {
-                placeId, modelId,
-            });
+    if(!person_clean)throw new Error('Bad Request.');
 
-        let {id, date_clean:dateClean, time_clean:timeClean} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
-            placeId, modelId
-        })
+    await sendRawQuery( UPDATE_CLEAN_PLACE_STATUS_LOG,
+        {
+            placeId, modelId,
+        });
 
-        const result = {
-            success:true,
-            data: {
-                id,
-                date: dateClean,
-                time: timeClean
-            }
+    let {id, date_clean:dateClean, time_clean:timeClean} = await sendRawQuery(FIND_PLACE_STATUS_LOG, {
+        placeId, modelId
+    })
+
+    const result = {
+        success:true,
+        data: {
+            id,
+            date: dateClean,
+            time: timeClean
         }
-
-        res.status(201).json(result)
-
     }
-    else throw new Error('Bad Request.');
+
+    res.status(201).json(result)
 })
 
 export const findNewPlaceStatus = wrapperAsync( async(req,res)=>{
