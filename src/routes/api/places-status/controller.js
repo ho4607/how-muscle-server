@@ -8,12 +8,13 @@ import {
 
 export const findAllLog = wrapperAsync(async(req, res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
+    let {limit} = req.query;
+
+    limit = parseInt(limit) || null;
 
     let data = await sendRawQueryFindAll(FIND_PLACE_STATUS_LOG_DETAIL, {
-        placeId, modelId
+        placeId, modelId, limit
     })
-
-    console.log(data)
 
     if(!data) throw new Error ("bad request");
 

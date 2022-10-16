@@ -55,5 +55,5 @@ export const FIND_PLACE_STATUS_LOG_DETAIL = `
     inner join how_muscle.models as m on l.model_id = m.id
     inner join how_muscle.places as p on l.place_id = p.id
         where l.place_id = :placeId and l.model_id = :modelId 
-        order by l.date_in desc, l.time_in desc  ; 
+        order by l.date_in desc, l.time_in desc limit :limit ; 
 `
