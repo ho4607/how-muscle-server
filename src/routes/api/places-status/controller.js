@@ -15,6 +15,8 @@ export const findAllLog = wrapperAsync(async(req, res)=>{
         place_name:placeName,
         model_serial_key:modelSerialKey,
         model_name:modelName,
+        date_in:dateIn,
+        time_in:timeIn,
         date_out:dateOut,
         time_out:timeOut,
         date_clean:dateClean,
@@ -28,7 +30,8 @@ export const findAllLog = wrapperAsync(async(req, res)=>{
     const result = {
         success:true,
         data: {
-            id,placeId:_placeId,placeName,modelSerialKey:modelSerialKey,modelName,dateOut,timeOut,dateClean,timeClean
+            id,placeId:_placeId,placeName,modelSerialKey:modelSerialKey,modelName,
+            dateIn, timeIn,dateOut,timeOut,dateClean,timeClean
         }
     }
 
