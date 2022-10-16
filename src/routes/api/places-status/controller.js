@@ -1,5 +1,5 @@
 import {wrapperAsync} from "@/utils/functions";
-import {sendRawQuery} from "@/database/function";
+import {sendRawQuery, sendRawQueryFindAll} from "@/database/function";
 import {
     FIND_PLACE_STATUS_LOG, FIND_PLACE_STATUS_LOG_DETAIL,
     INSERT_PLACE_STATUS,
@@ -9,30 +9,17 @@ import {
 export const findAllLog = wrapperAsync(async(req, res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;
 
-    let {
-        id,
-        place_id:_placeId,
-        place_name:placeName,
-        model_serial_key:modelSerialKey,
-        model_name:modelName,
-        date_in:dateIn,
-        time_in:timeIn,
-        date_out:dateOut,
-        time_out:timeOut,
-        date_clean:dateClean,
-        time_clean:timeClean,
-    } = await sendRawQuery(FIND_PLACE_STATUS_LOG_DETAIL, {
+    let data = await sendRawQueryFindAll(FIND_PLACE_STATUS_LOG_DETAIL, {
         placeId, modelId
     })
 
-    if(!id) throw new Error ("bad request");
+    console.log(data)
+
+    if(!data) throw new Error ("bad request");
 
     const result = {
         success:true,
-        data: {
-            id,placeId:_placeId,placeName,modelSerialKey:modelSerialKey,modelName,
-            dateIn, timeIn,dateOut,timeOut,dateClean,timeClean
-        }
+        data: data
     }
 
     res.status(200).json(result)
