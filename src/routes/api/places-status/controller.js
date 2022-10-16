@@ -1,10 +1,40 @@
 import {wrapperAsync} from "@/utils/functions";
 import {sendRawQuery} from "@/database/function";
 import {
-    FIND_PLACE_STATUS_LOG,
+    FIND_PLACE_STATUS_LOG, FIND_PLACE_STATUS_LOG_DETAIL,
     INSERT_PLACE_STATUS,
     UPDATE_CLEAN_PLACE_STATUS_LOG, UPDATE_OUT_PLACE_STATUS_LOG
 } from "@/database/queries/place-status";
+
+export const findAllLog = wrapperAsync(async(req, res)=>{
+    const {place_id:placeId, model_id:modelId} = req.params;
+
+    let {
+        id,
+        place_id:_placeId,
+        place_name:placeName,
+        model_serial_key:modelSerialKey,
+        model_name:modelName,
+        date_out:dateOut,
+        time_out:timeOut,
+        date_clean:dateClean,
+        time_clean:timeClean,
+    } = await sendRawQuery(FIND_PLACE_STATUS_LOG_DETAIL, {
+        placeId, modelId
+    })
+
+    if(!id) throw new Error ("bad request");
+
+    const result = {
+        success:true,
+        data: {
+            id,placeId:_placeId,placeName,modelSerialKey:modelSerialKey,modelName,dateOut,timeOut,dateClean,timeClean
+        }
+    }
+
+    res.status(200).json(result)
+
+})
 
 export const findUpdatedOutHistory = wrapperAsync(async (req,res)=>{
     const {place_id:placeId, model_id:modelId} = req.params;

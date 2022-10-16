@@ -3,11 +3,11 @@ import {
     createNewPlaceStatus,
     findNewPlaceStatus,
     findUpdatedCleanHistory, findUpdatedOutHistory,
-    updateCleanHistory, updateOutHistory
+    updateCleanHistory, updateOutHistory,findAllLog
 } from "@/routes/api/places-status/controller";
 
 const place = express.Router()
-
+place.get('/log/:place_id(\\d+)/:model_id(\\d+)',findAllLog)
 place.post('/in/:place_id(\\d+)/:model_id(\\d+)',createNewPlaceStatus)
 place.get('/in/:place_id(\\d+)/:model_id(\\d+)',findNewPlaceStatus)
 place.put('/clean/:place_id(\\d+)/:model_id(\\d+)',updateCleanHistory)
